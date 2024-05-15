@@ -70,6 +70,8 @@ class SideDockWidget(QMainWindow):
 
     def moveEvent(self, a0):
 
+        print("moveEvent()")
+
         if self.volets[Side.LEFT]:
             pos_y = int(self.pos().y() + self.height() / 2 - self.volets[Side.LEFT].height() / 2)
             self.volets[Side.LEFT].move(QPoint(self.pos().x() - self.volets[Side.LEFT].size().width(), pos_y))
