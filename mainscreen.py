@@ -1,3 +1,4 @@
+from martyconnect import MartyHandler 
 from PyQt6.QtWidgets import QWidget, QPushButton, QLabel
 from PyQt6.QtCore import QSize, QTimer
 
@@ -8,8 +9,8 @@ class MainScreen(QWidget):
         self.marty = MartyHandler().getMarty()
 
         self.timer = QTimer(self)
-        timer.timeout.connect(self.update_info)
-        timer.start()
+        self.timer.timeout.connect(self.update_info)
+        self.timer.start()
 
         self.accelerometer_x_label = QLabel(self)
         self.accelerometer_x_label.setText("x = 0")
@@ -64,15 +65,15 @@ class MainScreen(QWidget):
         print("Down")
 
     def update_info(self):
-        accelerometer = self.marty.get_accelerometer()
+        x, y, z = self.marty.get_accelerometer()
 
-        self.accelerometer_x_label.setText("x = " + accelerometer.x)
-        self.accelerometer_y_label.setText("x = " + accelerometer.y)
-        self.accelerometer_z_label.setText("x = " + accelerometer.z)
+        self.accelerometer_x_label.setText(f"x = {x}")
+        self.accelerometer_y_label.setText(f"x = {y}")
+        self.accelerometer_z_label.setText(f"x = {z}")
 
-        self.distance_label.setText("distance: " + self.marty.get_distance_sensor() + "mm")
-        self.obstacle_label.setText("obstacle: " + self.foot_obstacle_sensed("left"))
-        self.battery_percentage.setText("battery_percentage: " + self.foot_obstacle_sensed("left"))
+        self.distance_label.setText(f"distance: {self.marty.get_distance_sensor()} mm")
+        self.obstacle_label.setText(f"obstacle: {self.marty.foot_obstacle_sensed("left")}")
+        self.battery_percentage_label.setText(f"battery_percentage: {self.marty.foot_obstacle_sensed("left")}")
 
 
         
