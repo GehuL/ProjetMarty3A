@@ -1,11 +1,14 @@
 import sys
 
+from martyconnect import MartyHandler
 from PyQt6.QtWidgets import QApplication
 from SideDockWidget import SideDockWidget, Side
 
 from emotes import EmoteScreen
 from datas import DataScreen
 from mainscreen import MainScreen
+
+MartyHandler("192.168.0.2")
 
 app = QApplication.instance()
 if not app:
