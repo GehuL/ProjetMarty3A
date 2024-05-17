@@ -8,7 +8,7 @@ from emotes import EmoteScreen
 from datas import DataScreen
 from mainscreen import MainScreen
 
-MartyHandler("192.168.0.2")
+#MartyHandler("192.168.0.100")
 
 app = QApplication.instance()
 if not app:
