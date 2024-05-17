@@ -22,7 +22,7 @@ class MartyHandler(object):
         return self.marty
 
 if __name__ == "__main__":
-    marty = MartyHandler("192.168.0.2").getMarty()
+    marty = MartyHandler("192.168.0.100").getMarty()
     marty = MartyHandler().getMarty() # Test du singleton
     if marty is not None:
         marty.stop("clear and stop")
