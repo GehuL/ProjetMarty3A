@@ -18,28 +18,20 @@ class MainScreen(QWidget):
         self.accelerometerText.move(0, 0)
 
         self.accelerometerXLabel = QLabel(self)
-        self.accelerometerXLabel.setText("x = 0")
+        self.accelerometerXLabel.setText("x = 000")
         self.accelerometerXLabel.move(0, 10)
 
         self.accelerometerYLabel = QLabel(self)
-        self.accelerometerYLabel.setText("y = 0")
+        self.accelerometerYLabel.setText("y = 000")
         self.accelerometerYLabel.move(0, 20)
         
         self.accelerometerZLabel = QLabel(self)
-        self.accelerometerZLabel.setText("z = 0")
+        self.accelerometerZLabel.setText("z = 000")
         self.accelerometerZLabel.move(0, 30)
 
-        self.distanceLabel = QLabel(self)
-        self.distanceLabel.setText("distance: ")
-        self.distanceLabel.move(100, 0)
-
-        self.obstacleLabel = QLabel(self)
-        self.obstacleLabel.setText("obstacle: ")
-        self.obstacleLabel.move(100, 10)
-
         self.batteryPercentageLabel = QLabel(self)
-        self.batteryPercentageLabel.setText("battery: ")
-        self.batteryPercentageLabel.move(100, 20)
+        self.batteryPercentageLabel.setText("battery: 000")
+        self.batteryPercentageLabel.move(100, 0)
 
         self.buttonLeft = QPushButton("⬅️", parent=self)
         self.buttonLeft.clicked.connect(self.leftClicked)
@@ -82,8 +74,7 @@ class MainScreen(QWidget):
             self.accelerometerYLabel.setText(f"y = {y}")
             self.accelerometerZLabel.setText(f"z = {z}")
 
-            self.obstacleLabel.setText(f"obstacle: " + marty.foot_obstacle_sensed("left"))
-            self.batteryPercentageLabel.setText(f"battery_percentage: " + self.marty.footObstacleSensed("left"))
+            self.batteryPercentageLabel.setText(f"battery: " + str(marty.get_battery_remaining()))
 
 
         
