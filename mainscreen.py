@@ -82,7 +82,7 @@ class MainScreen(QWidget):
             self.accelerometerYLabel.setText(f"y = {y}")
             self.accelerometerZLabel.setText(f"z = {z}")
 
-            self.obstacle_label.setText(f"obstacle: " + marty.foot_obstacle_sensed("left"))
+            self.obstacleLabel.setText(f"obstacle: " + marty.foot_obstacle_sensed("left"))
             self.batteryPercentageLabel.setText(f"battery_percentage: " + self.marty.footObstacleSensed("left"))
 
 
