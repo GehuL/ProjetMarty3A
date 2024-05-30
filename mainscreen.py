@@ -1,6 +1,12 @@
+<<<<<<< HEAD
 from martyconnect import MartyHandler 
 from PyQt6.QtWidgets import QWidget, QPushButton, QLabel
 from PyQt6.QtCore import QSize, QTimer
+=======
+from PyQt6.QtWidgets import QWidget, QPushButton
+from PyQt6.QtCore import QSize
+from martyconnect import MartyHandler
+>>>>>>> 2ebf3e92051f9d520d2875bceae37ef63bead2d1
 
 class MainScreen(QWidget):
     def __init__(self):
@@ -54,16 +60,44 @@ class MainScreen(QWidget):
         self.buttonDown.show()
 
     def leftClicked(self):
+        marty = self.marty.getMarty()
+        if marty == None:
+            return 
         print("Left")
+        marty.get_ready(None)
+        marty.walk(4,"auto",-90,25,2500,None)
+        marty.get_ready(None)
+
 
     def rightClicked(self):
+        marty = self.marty.getMarty()
+        if marty == None:
+            return 
         print("Right")
+        marty.get_ready(None)
+        marty.walk(2,"auto",90,25,1500,None)
+        marty.get_ready(None)
 
     def upClicked(self):
+        marty = self.marty.getMarty()
+        if marty==None:
+            return 
+ 
         print("Up")
+        marty.get_ready(None)
+        marty.walk(2,"auto",0,25,1500,None)
+        marty.get_ready(None)
 
     def downClicked(self):
+        marty = self.marty.getMarty()
+        if marty == None:
+            return 
         print("Down")
+        marty.get_ready(None)
+        marty.walk(5,"auto",45,10,2500,None)
+        marty.walk(5,"auto",45,10,2500,None)#est sensé faire un demi tour droite
+        marty.get_ready(None)
+
 
     def updateInfo(self):
         marty = self.marty.getMarty()
@@ -75,6 +109,3 @@ class MainScreen(QWidget):
             self.accelerometerZLabel.setText(f"z = {z}")
 
             self.batteryPercentageLabel.setText(f"battery: " + str(marty.get_battery_remaining()))
-
-
-        
