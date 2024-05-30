@@ -1,5 +1,6 @@
 from PyQt6.QtWidgets import QWidget, QPushButton
 from PyQt6.QtCore import QSize
+from martyconnect import MartyHandler
 
 class MainScreen(QWidget):
     def __init__(self):
@@ -23,14 +24,30 @@ class MainScreen(QWidget):
         self.button_down.show()
 
     def left_clicked(self):
+        marty=MartyHandler().getMarty()
+        if marty==None:
+            return 
         print("Left")
+        marty.walk(2,"auto",-90,25,1500,None)
 
     def right_clicked(self):
+        marty=MartyHandler().getMarty()
+        if marty==None:
+            return 
         print("Right")
+        marty.walk(2,"auto",90,25,1500,None)
 
     def up_clicked(self):
+        marty=MartyHandler().getMarty()
+        if marty==None:
+            return 
         print("Up")
+        marty.walk(2,"auto",0,25,1500,None)
 
     def down_clicked(self):
+        marty=MartyHandler().getMarty()
+        if marty==None:
+            return 
         print("Down")
-        
+        marty.walk(5,"auto",90,25,1500,None)
+        marty.walk(5,"auto",90,25,1500,None)#est sensé faire un demi tour droite
