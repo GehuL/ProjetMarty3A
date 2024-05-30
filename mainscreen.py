@@ -23,7 +23,7 @@ class MainScreen(QWidget):
         self.buttonLeft.move(50, 350)
         self.buttonLeft.show()
 
-        self.buttonRight = QPushButton("➡", parent=self)
+        self.buttonRight = QPushButton("➡️", parent=self)
         self.buttonRight.clicked.connect(self.rightClicked)
         self.buttonRight.move(150, 350)
         self.buttonRight.show()
@@ -82,3 +82,4 @@ class MainScreen(QWidget):
         marty = self.marty.getMarty()
         if marty != None:
             self.batteryPercentageLabel.setText(str(marty.get_battery_remaining()) + " %")
+            print(marty.get_battery_remaining())
