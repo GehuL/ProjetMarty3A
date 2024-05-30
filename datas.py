@@ -44,9 +44,17 @@ class DataScreen(QWidget):
         self.obstacleRightLabel.setText("Right : 000000")
         self.obstacleRightLabel.move(0, 120)
         
+        self.obstacleColorLabel = QLabel(self)
+        self.obstacleColorLabel.setText("Color : 000000")
+        self.obstacleColorLabel.move(0, 130)
+        
+        self.obstacleIRLabel = QLabel(self)
+        self.obstacleIRLabel.setText("IR : 000000")
+        self.obstacleIRLabel.move(0, 140)
+        
     def updateInfo(self):
         marty = self.marty.getMarty()
-        if marty != None:
+        if self.marty.isConnected():
             x, y, z = marty.get_accelerometer()
 
             self.accelerometerXLabel.setText(f"x = {x}")
@@ -55,3 +63,5 @@ class DataScreen(QWidget):
             
             self.obstacleLeftLabel.setText("Left : " + str(marty.get_obstacle_sensor_reading("left")))
             self.obstacleRightLabel.setText("Right : " + str(marty.get_obstacle_sensor_reading("right")))
+            self.obstacleColorLabel.setText("Color : " + str(marty.get_obstacle_sensor_reading("LeftColorSensor")))
+            self.obstacleIRLabel.setText("IR : " + str(marty.get_obstacle_sensor_reading("RightIRFoot")))

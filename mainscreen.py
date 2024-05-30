@@ -79,6 +79,6 @@ class MainScreen(QWidget):
 
     def updateInfo(self):
         marty = self.marty.getMarty()
-        if marty != None:
+        if self.marty.isConnected():
             self.batteryPercentageLabel.setText(str(marty.get_battery_remaining()) + " %")
             print(marty.get_battery_remaining())
