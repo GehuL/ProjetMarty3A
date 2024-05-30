@@ -1,6 +1,5 @@
 from PyQt6.QtWidgets import QWidget, QPushButton, QLabel
 from PyQt6.QtCore import QSize, QTimer
-
 from martyconnect import MartyHandler
 
 class MainScreen(QWidget):
