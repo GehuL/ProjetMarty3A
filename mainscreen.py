@@ -1,16 +1,12 @@
-<<<<<<< HEAD
 from martyconnect import MartyHandler 
 from PyQt6.QtWidgets import QWidget, QPushButton, QLabel
 from PyQt6.QtCore import QSize, QTimer
-=======
-from PyQt6.QtWidgets import QWidget, QPushButton
-from PyQt6.QtCore import QSize
-from martyconnect import MartyHandler
->>>>>>> 2ebf3e92051f9d520d2875bceae37ef63bead2d1
+from PyQt6 import QtCore, QtGui
 
 class MainScreen(QWidget):
     def __init__(self):
         super().__init__()
+        #QtCore.pyqtSignal<(QtCore.QEvent).keyPressed.connect(self.on_key)
 
         self.marty = MartyHandler()
         self.setFixedSize(QSize(300, 500))
@@ -53,59 +49,103 @@ class MainScreen(QWidget):
         self.buttonUp.clicked.connect(self.upClicked)
         self.buttonUp.move(100, 300)
         self.buttonUp.show()
-
+    
         self.buttonDown = QPushButton("⬇️", parent=self)
         self.buttonDown.clicked.connect(self.downClicked)
         self.buttonDown.move(100, 400)
         self.buttonDown.show()
-
+        
+        self.buttonRL = QPushButton("⟲", parent=self)
+        self.buttonRL.clicked.connect(self.rotateleftClicked)
+        self.buttonRL.setFixedSize(25,25)
+        self.buttonRL.move(50, 300)
+        self.buttonRL.show()
+        
+        self.buttonRR = QPushButton("⟳", parent=self)
+        self.buttonRR.clicked.connect(self.rotaterightClicked)
+        self.buttonRR.setFixedSize(25,25)
+        self.buttonRR.move(150+self.buttonRight.width()-self.buttonRR.width(), 300)
+        self.buttonRR.show()
+    
+    def keyPressEvent(self, event):
+        if event.key() == QtCore.Qt.Key.Key_Q:
+            self.leftClicked()
+        if event.key() == QtCore.Qt.Key.Key_D:
+            self.rightClicked()   
+        if event.key() == QtCore.Qt.Key.Key_Z:
+            self.upClicked()   
+        if event.key() == QtCore.Qt.Key.Key_S:
+            self.downClicked()   
+        if event.key() == QtCore.Qt.Key.Key_E:
+            self.rotaterightClicked()     
+        if event.key() == QtCore.Qt.Key.Key_A:
+            self.rotateleftClicked()  
+        if event.key() == QtCore.Qt.Key.Key_Space:
+           self.cancel()
+            
+    
+    def cancel(self):
+        if not MartyHandler().isConnected():
+            return
+        MartyHandler().getMarty().stop("clear queue")
+    
     def leftClicked(self):
-        marty = self.marty.getMarty()
-        if marty == None:
+        if not MartyHandler().isConnected():
+            return
+        
+        MartyHandler().getMarty().sidestep("left",1,35,1000,False)
+        
+    
+    def rightClicked(self):
+        if not MartyHandler().isConnected():
+            return
+        MartyHandler().getMarty().sidestep("right",1,35,1000,False)
+
+    def rotateleftClicked(self):
+        if not MartyHandler().isConnected():
             return 
         print("Left")
-        marty.get_ready(None)
-        marty.walk(4,"auto",-90,25,2500,None)
-        marty.get_ready(None)
+        for i in range(3):
+            MartyHandler().getMarty().stand_straight(1000,False)
+            MartyHandler().getMarty().walk(1,"auto",90/3,10,2500,False)
+        MartyHandler().getMarty().stand_straight(1000,None)
 
 
-    def rightClicked(self):
-        marty = self.marty.getMarty()
-        if marty == None:
+
+    def rotaterightClicked(self):
+        if not MartyHandler().isConnected():
             return 
         print("Right")
-        marty.get_ready(None)
-        marty.walk(2,"auto",90,25,1500,None)
-        marty.get_ready(None)
+        for i in range(3):
+            MartyHandler().getMarty().stand_straight(1000,False)
+            MartyHandler().getMarty().walk(1,"auto",-30,10,2500,False)
+        MartyHandler().getMarty().stand_straight(1000,None)
+       
 
     def upClicked(self):
-        marty = self.marty.getMarty()
-        if marty==None:
+        if not MartyHandler().isConnected():
             return 
- 
         print("Up")
-        marty.get_ready(None)
-        marty.walk(2,"auto",0,25,1500,None)
-        marty.get_ready(None)
+        #marty.stand_straight(1000,False)
+        MartyHandler().getMarty().walk(1,"auto",0,25,1000,False)
 
     def downClicked(self):
-        marty = self.marty.getMarty()
-        if marty == None:
+        if not MartyHandler().isConnected():
             return 
         print("Down")
-        marty.get_ready(None)
-        marty.walk(5,"auto",45,10,2500,None)
-        marty.walk(5,"auto",45,10,2500,None)#est sensé faire un demi tour droite
-        marty.get_ready(None)
+        for i in range(6):
+            MartyHandler().getMarty().stand_straight(1000,False)
+            MartyHandler().getMarty().walk(1,"auto",-180/6,10,2000,False)
+        MartyHandler().getMarty().stand_straight(1000,False)
 
 
     def updateInfo(self):
-        marty = self.marty.getMarty()
-        if marty != None:
-            x, y, z = marty.get_accelerometer()
+        if not MartyHandler().isConnected():
+            return
+        x, y, z = MartyHandler().getMarty().get_accelerometer()
 
-            self.accelerometerXLabel.setText(f"x = {x}")
-            self.accelerometerYLabel.setText(f"y = {y}")
-            self.accelerometerZLabel.setText(f"z = {z}")
+        self.accelerometerXLabel.setText(f"x = {x}")
+        self.accelerometerYLabel.setText(f"y = {y}")
+        self.accelerometerZLabel.setText(f"z = {z}")
 
-            self.batteryPercentageLabel.setText(f"battery: " + str(marty.get_battery_remaining()))
+        self.batteryPercentageLabel.setText(f"battery: " + str(MartyHandler.getMarty().get_battery_remaining()))
