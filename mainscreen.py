@@ -3,6 +3,7 @@ from PyQt6.QtWidgets import QWidget, QPushButton, QLabel
 from PyQt6.QtCore import QSize, QTimer
 from PyQt6 import QtCore, QtGui
 
+
 class MainScreen(QWidget):
     def __init__(self):
         super().__init__()
@@ -15,25 +16,9 @@ class MainScreen(QWidget):
         self.timer.timeout.connect(self.updateInfo)
         self.timer.start()
 
-        self.accelerometerText = QLabel(self)
-        self.accelerometerText.setText("Accelerometer :")
-        self.accelerometerText.move(0, 0)
-
-        self.accelerometerXLabel = QLabel(self)
-        self.accelerometerXLabel.setText("x = 000")
-        self.accelerometerXLabel.move(0, 10)
-
-        self.accelerometerYLabel = QLabel(self)
-        self.accelerometerYLabel.setText("y = 000")
-        self.accelerometerYLabel.move(0, 20)
-        
-        self.accelerometerZLabel = QLabel(self)
-        self.accelerometerZLabel.setText("z = 000")
-        self.accelerometerZLabel.move(0, 30)
-
         self.batteryPercentageLabel = QLabel(self)
-        self.batteryPercentageLabel.setText("battery: 000")
-        self.batteryPercentageLabel.move(100, 0)
+        self.batteryPercentageLabel.setText("000 %")
+        self.batteryPercentageLabel.move(250, 0)
 
         self.buttonLeft = QPushButton("⬅️", parent=self)
         self.buttonLeft.clicked.connect(self.leftClicked)
@@ -140,6 +125,7 @@ class MainScreen(QWidget):
 
 
     def updateInfo(self):
+
         if not MartyHandler().isConnected():
             return
         x, y, z = MartyHandler().getMarty().get_accelerometer()
@@ -149,3 +135,4 @@ class MainScreen(QWidget):
         self.accelerometerZLabel.setText(f"z = {z}")
 
         self.batteryPercentageLabel.setText(f"battery: " + str(MartyHandler.getMarty().get_battery_remaining()))
+

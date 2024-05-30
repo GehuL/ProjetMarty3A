@@ -21,6 +21,9 @@ class MartyHandler(object):
 
     def getMarty(self):
         return self.marty
+    
+    def isConnected(self):
+        return self.marty != None and self.marty.is_conn_ready()
 
 if __name__ == "__main__":
     marty = MartyHandler("192.168.0.102").getMarty()
