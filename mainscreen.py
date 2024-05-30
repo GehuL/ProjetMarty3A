@@ -1,5 +1,6 @@
 from PyQt6.QtWidgets import QWidget, QPushButton, QLabel
 from PyQt6.QtCore import QSize, QTimer
+
 from martyconnect import MartyHandler
 
 class MainScreen(QWidget):
@@ -12,34 +13,6 @@ class MainScreen(QWidget):
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.updateInfo)
         self.timer.start()
-
-        self.accelerometerText = QLabel(self)
-        self.accelerometerText.setText("Accelerometer :")
-        self.accelerometerText.move(0, 0)
-
-        self.accelerometerXLabel = QLabel(self)
-        self.accelerometerXLabel.setText("x = 00000")
-        self.accelerometerXLabel.move(0, 10)
-
-        self.accelerometerYLabel = QLabel(self)
-        self.accelerometerYLabel.setText("y = 00000")
-        self.accelerometerYLabel.move(0, 20)
-        
-        self.accelerometerZLabel = QLabel(self)
-        self.accelerometerZLabel.setText("z = 00000")
-        self.accelerometerZLabel.move(0, 30)
-        
-        self.obstacleLabel = QLabel(self)
-        self.obstacleLabel.setText("Obstacle")
-        self.obstacleLabel.move(0, 200)
-        
-        self.obstacleLeftLabel = QLabel(self)
-        self.obstacleLeftLabel.setText("Left : 000000")
-        self.obstacleLeftLabel.move(0, 210)
-        
-        self.obstacleRightLabel = QLabel(self)
-        self.obstacleRightLabel.setText("Right : 000000")
-        self.obstacleRightLabel.move(0, 220)
 
         self.batteryPercentageLabel = QLabel(self)
         self.batteryPercentageLabel.setText("000 %")
@@ -108,13 +81,4 @@ class MainScreen(QWidget):
     def updateInfo(self):
         marty = self.marty.getMarty()
         if marty != None:
-            x, y, z = marty.get_accelerometer()
-
-            self.accelerometerXLabel.setText(f"x = {x}")
-            self.accelerometerYLabel.setText(f"y = {y}")
-            self.accelerometerZLabel.setText(f"z = {z}")
-
             self.batteryPercentageLabel.setText(str(marty.get_battery_remaining()) + " %")
-            
-            self.obstacleLeftLabel.setText("Left : " + str(marty.get_obstacle_sensor_reading("left")))
-            self.obstacleRightLabel.setText("Right : " + str(marty.get_obstacle_sensor_reading("right")))
