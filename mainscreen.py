@@ -76,7 +76,7 @@ class MainScreen(QWidget):
     def updateInfo(self):
         marty = self.marty.getMarty()
         if marty != None:
-            x, y, z = self.marty.get_accelerometer()
+            x, y, z = marty.get_accelerometer()
 
             self.accelerometerXLabel.setText(f"x = {x}")
             self.accelerometerYLabel.setText(f"y = {y}")
