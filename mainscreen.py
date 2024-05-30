@@ -28,26 +28,35 @@ class MainScreen(QWidget):
         if marty==None:
             return 
         print("Left")
-        marty.walk(2,"auto",-90,25,1500,None)
+        marty.get_ready(None)
+        marty.walk(4,"auto",-90,25,2500,None)
+        marty.get_ready(None)
 
     def right_clicked(self):
         marty=MartyHandler().getMarty()
         if marty==None:
             return 
         print("Right")
+        marty.get_ready(None)
         marty.walk(2,"auto",90,25,1500,None)
+        marty.get_ready(None)
 
     def up_clicked(self):
         marty=MartyHandler().getMarty()
         if marty==None:
             return 
         print("Up")
+        marty.get_ready(None)
         marty.walk(2,"auto",0,25,1500,None)
+        marty.get_ready(None)
 
     def down_clicked(self):
         marty=MartyHandler().getMarty()
         if marty==None:
             return 
         print("Down")
-        marty.walk(5,"auto",90,25,1500,None)
-        marty.walk(5,"auto",90,25,1500,None)#est sensé faire un demi tour droite
+        
+        marty.get_ready(None)
+        marty.walk(5,"auto",45,10,2500,None)
+        marty.walk(5,"auto",45,10,2500,None)#est sensé faire un demi tour droite
+        marty.get_ready(None)
