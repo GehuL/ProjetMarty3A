@@ -1,12 +1,9 @@
-<<<<<<< HEAD
 from martyconnect import MartyHandler 
 from PyQt6.QtWidgets import QWidget, QPushButton, QLabel
 from PyQt6.QtCore import QSize, QTimer
-=======
 from PyQt6.QtWidgets import QWidget, QPushButton
 from PyQt6.QtCore import QSize
 from martyconnect import MartyHandler
->>>>>>> 2ebf3e92051f9d520d2875bceae37ef63bead2d1
 
 class MainScreen(QWidget):
     def __init__(self):

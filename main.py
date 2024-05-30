@@ -9,8 +9,6 @@ from datas import DataScreen
 from mainscreen import MainScreen
 from connexion import ConnexionWidget
 
-MartyHandler("192.168.0.102")
-
 app = QApplication.instance()
 if not app:
     app = QApplication(sys.argv)
