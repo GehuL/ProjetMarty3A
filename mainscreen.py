@@ -1,12 +1,6 @@
-<<<<<<< HEAD
-from martyconnect import MartyHandler 
 from PyQt6.QtWidgets import QWidget, QPushButton, QLabel
 from PyQt6.QtCore import QSize, QTimer
-=======
-from PyQt6.QtWidgets import QWidget, QPushButton
-from PyQt6.QtCore import QSize
 from martyconnect import MartyHandler
->>>>>>> 2ebf3e92051f9d520d2875bceae37ef63bead2d1
 
 class MainScreen(QWidget):
     def __init__(self):
@@ -24,27 +18,39 @@ class MainScreen(QWidget):
         self.accelerometerText.move(0, 0)
 
         self.accelerometerXLabel = QLabel(self)
-        self.accelerometerXLabel.setText("x = 000")
+        self.accelerometerXLabel.setText("x = 00000")
         self.accelerometerXLabel.move(0, 10)
 
         self.accelerometerYLabel = QLabel(self)
-        self.accelerometerYLabel.setText("y = 000")
+        self.accelerometerYLabel.setText("y = 00000")
         self.accelerometerYLabel.move(0, 20)
         
         self.accelerometerZLabel = QLabel(self)
-        self.accelerometerZLabel.setText("z = 000")
+        self.accelerometerZLabel.setText("z = 00000")
         self.accelerometerZLabel.move(0, 30)
+        
+        self.obstacleLabel = QLabel(self)
+        self.obstacleLabel.setText("Obstacle")
+        self.obstacleLabel.move(0, 200)
+        
+        self.obstacleLeftLabel = QLabel(self)
+        self.obstacleLeftLabel.setText("Left : 000000")
+        self.obstacleLeftLabel.move(0, 210)
+        
+        self.obstacleRightLabel = QLabel(self)
+        self.obstacleRightLabel.setText("Right : 000000")
+        self.obstacleRightLabel.move(0, 220)
 
         self.batteryPercentageLabel = QLabel(self)
-        self.batteryPercentageLabel.setText("battery: 000")
-        self.batteryPercentageLabel.move(100, 0)
+        self.batteryPercentageLabel.setText("000 %")
+        self.batteryPercentageLabel.move(250, 0)
 
         self.buttonLeft = QPushButton("⬅️", parent=self)
         self.buttonLeft.clicked.connect(self.leftClicked)
         self.buttonLeft.move(50, 350)
         self.buttonLeft.show()
 
-        self.buttonRight = QPushButton("➡️", parent=self)
+        self.buttonRight = QPushButton("➡", parent=self)
         self.buttonRight.clicked.connect(self.rightClicked)
         self.buttonRight.move(150, 350)
         self.buttonRight.show()
@@ -108,4 +114,7 @@ class MainScreen(QWidget):
             self.accelerometerYLabel.setText(f"y = {y}")
             self.accelerometerZLabel.setText(f"z = {z}")
 
-            self.batteryPercentageLabel.setText(f"battery: " + str(marty.get_battery_remaining()))
+            self.batteryPercentageLabel.setText(str(marty.get_battery_remaining()) + " %")
+            
+            self.obstacleLeftLabel.setText("Left : " + str(marty.get_obstacle_sensor_reading("left")))
+            self.obstacleRightLabel.setText("Right : " + str(marty.get_obstacle_sensor_reading("right")))
