@@ -6,78 +6,85 @@ class MainScreen(QWidget):
     def __init__(self):
         super().__init__()
 
-        self.marty = MartyHandler().getMarty()
+        self.marty = MartyHandler()
         self.setFixedSize(QSize(300, 500))
 
         self.timer = QTimer(self)
-        self.timer.timeout.connect(self.update_info)
+        self.timer.timeout.connect(self.updateInfo)
         self.timer.start()
 
-        self.accelerometer_x_label = QLabel(self)
-        self.accelerometer_x_label.setText("x = 0")
-        self.move(100, 400)
+        self.accelerometerText = QLabel(self)
+        self.accelerometerText.setText("Accelerometer :")
+        self.accelerometerText.move(0, 0)
 
-        # self.accelerometer_y_label = QLabel(self)
-        # self.accelerometer_y_label.setText("y = 0")
+        self.accelerometerXLabel = QLabel(self)
+        self.accelerometerXLabel.setText("x = 0")
+        self.accelerometerXLabel.move(0, 10)
 
-        # self.accelerometer_z_label = QLabel(self)
-        # self.accelerometer_z_label.setText("z = 0")
+        self.accelerometerYLabel = QLabel(self)
+        self.accelerometerYLabel.setText("y = 0")
+        self.accelerometerYLabel.move(0, 20)
+        
+        self.accelerometerZLabel = QLabel(self)
+        self.accelerometerZLabel.setText("z = 0")
+        self.accelerometerZLabel.move(0, 30)
 
-        # self.distance_label = QLabel(self)
-        # self.distance_label.setText("distance: ")
+        self.distanceLabel = QLabel(self)
+        self.distanceLabel.setText("distance: ")
+        self.distanceLabel.move(100, 0)
 
-        # self.obstacle_label = QLabel(self)
-        # self.obstacle_label.setText("obstacle: ")
+        self.obstacleLabel = QLabel(self)
+        self.obstacleLabel.setText("obstacle: ")
+        self.obstacleLabel.move(100, 10)
 
-        # self.battery_percentage_label = QLabel(self)
-        # self.battery_percentage_label.setText("battery: ")
+        self.batteryPercentageLabel = QLabel(self)
+        self.batteryPercentageLabel.setText("battery: ")
+        self.batteryPercentageLabel.move(100, 20)
 
-        # self.button_left = QPushButton("⬅️", parent=self)
-        # self.button_left.clicked.connect(self.left_clicked)
-        # self.button_left.move(10, 50)
-        # self.button_left.show()
+        self.buttonLeft = QPushButton("⬅️", parent=self)
+        self.buttonLeft.clicked.connect(self.leftClicked)
+        self.buttonLeft.move(50, 350)
+        self.buttonLeft.show()
 
-        # self.button_right = QPushButton("➡️", parent=self)
-        # self.button_right.clicked.connect(self.right_clicked)
-        # self.button_left.move(20, 50)
-        # self.button_right.show()
+        self.buttonRight = QPushButton("➡️", parent=self)
+        self.buttonRight.clicked.connect(self.rightClicked)
+        self.buttonRight.move(150, 350)
+        self.buttonRight.show()
 
-        # self.button_up = QPushButton("⬆️", parent=self)
-        # self.button_up.clicked.connect(self.up_clicked)
-        # self.button_left.move(30, 50)
-        # self.button_up.show()
+        self.buttonUp = QPushButton("⬆️", parent=self)
+        self.buttonUp.clicked.connect(self.upClicked)
+        self.buttonUp.move(100, 300)
+        self.buttonUp.show()
 
-        # self.button_down = QPushButton("⬇️", parent=self)
-        # self.button_down.clicked.connect(self.down_clicked)
-        # self.button_left.move(40, 150)
-        # self.button_down.show()
+        self.buttonDown = QPushButton("⬇️", parent=self)
+        self.buttonDown.clicked.connect(self.downClicked)
+        self.buttonDown.move(100, 400)
+        self.buttonDown.show()
 
-    def left_clicked(self):
+    def leftClicked(self):
         print("Left")
 
-    def right_clicked(self):
+    def rightClicked(self):
         print("Right")
 
-    def up_clicked(self):
+    def upClicked(self):
         print("Up")
 
-    def down_clicked(self):
+    def downClicked(self):
         print("Down")
 
-    def update_info(self):
-        marty = MartyHandler().getMarty()
-        if marty == None:
-            x, y, z = 0, 0, 0
-        else:
+    def updateInfo(self):
+        marty = self.marty.getMarty()
+        if marty != None:
             x, y, z = self.marty.get_accelerometer()
 
-        self.accelerometer_x_label.setText(f"x = {x}")
-        # self.accelerometer_y_label.setText(f"x = {y}")
-        # self.accelerometer_z_label.setText(f"x = {z}")
+            self.accelerometerXLabel.setText(f"x = {x}")
+            self.accelerometerYLabel.setText(f"y = {y}")
+            self.accelerometerZLabel.setText(f"z = {z}")
 
-        # self.distance_label.setText(f"distance: {self.marty.get_distance_sensor()} mm")
-        # self.obstacle_label.setText(f"obstacle: {self.marty.foot_obstacle_sensed("left")}")
-        # self.battery_percentage_label.setText(f"battery_percentage: {self.marty.foot_obstacle_sensed("left")}")
+            self.distanceLabel.setText(f"distance: {marty.get_distance_sensor()} mm")
+            self.obstacle_label.setText(f"obstacle: " + marty.foot_obstacle_sensed("left"))
+            self.batteryPercentageLabel.setText(f"battery_percentage: " + self.marty.footObstacleSensed("left"))
 
 
         
