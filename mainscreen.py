@@ -15,6 +15,10 @@ class MainScreen(QWidget):
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.updateInfo)
         self.timer.start()
+        
+        self.nameLabel = QLabel(self)
+        self.nameLabel.setText("AAAAAAAAAAA")
+        self.nameLabel.move(0, 0)
 
         self.batteryPercentageLabel = QLabel(self)
         self.batteryPercentageLabel.setText("000 %")
@@ -125,9 +129,8 @@ class MainScreen(QWidget):
 
 
     def updateInfo(self):
-
-        if not MartyHandler().isConnected():
-            return
-
-        self.batteryPercentageLabel.setText(f"battery: " + str(MartyHandler().getMarty().get_battery_remaining()))
-
+        marty = self.marty.getMarty()
+        if self.marty.isConnected():
+            self.nameLabel.setText(marty.get_marty_name())
+            self.batteryPercentageLabel.setText(str(marty.get_battery_remaining()) + " %")
+            print(marty.get_battery_remaining())
