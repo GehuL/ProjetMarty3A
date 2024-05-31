@@ -133,4 +133,3 @@ class MainScreen(QWidget):
         if self.marty.isConnected():
             self.nameLabel.setText(marty.get_marty_name())
             self.batteryPercentageLabel.setText(str(marty.get_battery_remaining()) + " %")
-            print(marty.get_battery_remaining())
