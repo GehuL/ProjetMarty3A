@@ -128,11 +128,6 @@ class MainScreen(QWidget):
 
         if not MartyHandler().isConnected():
             return
-        x, y, z = MartyHandler().getMarty().get_accelerometer()
 
-        self.accelerometerXLabel.setText(f"x = {x}")
-        self.accelerometerYLabel.setText(f"y = {y}")
-        self.accelerometerZLabel.setText(f"z = {z}")
-
-        self.batteryPercentageLabel.setText(f"battery: " + str(MartyHandler.getMarty().get_battery_remaining()))
+        self.batteryPercentageLabel.setText(f"battery: " + str(MartyHandler().getMarty().get_battery_remaining()))
 
