@@ -30,3 +30,14 @@ class Marty2:
     def isFinished() -> bool:
         """Renvoie true si on à résolue le labyrinthe (plus besoin d'appeler step), false sinon"""
         return False
+    
+
+def solveMaze():
+    marty1 = Marty1()
+    marty2 = Marty2()
+
+    info = marty1.start()
+
+    while not marty1.isFinished() or not marty2.isFinished():
+        info = marty2.step(info)
+        info = marty1.step(info)
