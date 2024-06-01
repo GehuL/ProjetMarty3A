@@ -1,9 +1,10 @@
 import sys
 
-from martyconnect import MartyHandler
 from PyQt6.QtWidgets import QApplication, QWidget
 from SideDockWidget import SideDockWidget, Side
 from switchUI import SwitchUI
+from automodeUI import AutomodeUI
+from martyconnect import MartyHandler 
 
 from emotes import EmoteScreen
 from datas import DataScreen
@@ -28,7 +29,7 @@ def buildMainWindow():
     win.setDock(EmoteScreen(), Side.LEFT)
     win.setDock(DataScreen(), Side.RIGHT)
     win.setDock(MainScreen(), Side.CENTER)
-    win.setDock(ConnexionWidget(), Side.BOT)
+    win.setDock(ConnexionWidget(MartyHandler()), Side.BOT)
     win.setDock(SwitchUI(onSwitch, "Switch to automode"), Side.TOP)
     return win
 
@@ -36,6 +37,7 @@ def buildAutoModeWindow():
     win = SideDockWidget()
     win.setWindowTitle("Marty maze solver")
     win.setDock(SwitchUI(onSwitch, "Switch to manual mode"), Side.TOP)
+    win.setDock(AutomodeUI(), Side.CENTER)
     return win
 
 app = QApplication.instance()

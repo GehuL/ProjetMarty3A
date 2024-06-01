@@ -1,22 +1,25 @@
 from martypy import Marty
 
 # Premier marty
-class MartyHandler(object):
+class BaseHandler(object):
 
     def  __new__(cls, *args, **kwargs):
         if not hasattr(cls, 'instance'):
-            cls.instance = super(MartyHandler, cls).__new__(cls)
+            print(cls)
+            cls.instance = super(BaseHandler, cls).__new__(cls, *args, **kwargs)
             cls.instance.marty = None
+            cls.instance.ip = None
         return cls.instance
     
     def __init__(self, ip=None):
         if ip != None:
-            print("Connecting to marty", ip, "...")
             self.marty = None
             self.connect(ip)
 
     def connect(self, ip):
+        print("Connecting to marty", ip, "...")
         try:
+            self.ip = ip
             self.marty = Marty("wifi", ip)
             print("Connected to marty")
         except:
@@ -28,8 +31,21 @@ class MartyHandler(object):
     def isConnected(self):
         return self.marty != None and self.marty.is_conn_ready()
 
+# Premier marty
+class MartyHandler(BaseHandler):
+
+    def __new__(cls, *args, **kwargs):
+        return super(MartyHandler, cls).__new__(cls, *args, **kwargs)
+
+    def __init__(self, ip=None):
+        super().__init__(ip)
+
 # Deuxième marty
-class MartyHandler2(MartyHandler):
+class MartyHandler2(BaseHandler):
+
+    def __new__(cls, *args, **kwargs):
+        return super(MartyHandler2, cls).__new__(cls, *args, **kwargs)
+
     def __init__(self, ip=None):
         super().__init__(ip)
 
