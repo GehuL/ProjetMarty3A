@@ -1,7 +1,7 @@
 import sys
 
 from martyconnect import MartyHandler
-from PyQt6.QtWidgets import QApplication
+from PyQt6.QtWidgets import QApplication, QWidget
 from SideDockWidget import SideDockWidget, Side
 from switchUI import SwitchUI
 
@@ -12,6 +12,7 @@ from connexion import ConnexionWidget
 
 def onSwitch():
     global mainWindow, automodeWindow
+
     if mainWindow.isVisible():
         mainWindow.close()
         automodeWindow = buildAutoModeWindow()
@@ -23,25 +24,26 @@ def onSwitch():
 
 def buildMainWindow():
     win = SideDockWidget()
+    win.setWindowTitle("Marty Controller")
     win.setDock(EmoteScreen(), Side.LEFT)
     win.setDock(DataScreen(), Side.RIGHT)
     win.setDock(MainScreen(), Side.CENTER)
     win.setDock(ConnexionWidget(), Side.BOT)
-    win.setDock(SwitchUI(onSwitch), Side.TOP)
+    win.setDock(SwitchUI(onSwitch, "Switch to automode"), Side.TOP)
     return win
 
 def buildAutoModeWindow():
     win = SideDockWidget()
-    win.setDock(SwitchUI(onSwitch), Side.TOP)
+    win.setWindowTitle("Marty maze solver")
+    win.setDock(SwitchUI(onSwitch, "Switch to manual mode"), Side.TOP)
     return win
 
 app = QApplication.instance()
 if not app:
     app = QApplication(sys.argv)
 
+automodeWindow = QWidget()
 mainWindow = buildMainWindow()
-automodeWindow = buildAutoModeWindow()
-
 mainWindow.show()
 
 app.exec()
