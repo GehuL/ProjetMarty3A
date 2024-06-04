@@ -1,13 +1,28 @@
-gridSize = (3, 3)
+gridSize = (3, 3) # x, y
 
 class Marty1:
     def __init__(self) -> None:
         self.isFinishined = False
         self.isFinishedAnalyzed = False
+        self.turnLeft = False
         pass
 
     def analyzeTile(self, index):
-        """Analyze one of the tile, makes Marty turn when he is on the edge of the grid"""
+        """Analyze one of the tile, makes Marty turn when he is on the edge of the grid. Returns None when the maze is finished."""
+
+        if self.isFinishedAnalyzed:
+            return None
+
+        if index % gridSize[1] == 0:
+            goForward()
+        else:
+            pas_chaser()
+
+        if self.index > gridSize[0]*gridSize[1]:
+            self.isFinishedAnalyzed = True
+
+        # getColor()
+
         return "color"
 
     def isFinishedAnalyzed(self):
