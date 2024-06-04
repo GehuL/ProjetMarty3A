@@ -39,6 +39,8 @@ class MartyHandler(BaseHandler):
 
     def __init__(self, ip=None):
         super().__init__(ip)
+   
+
 
 # Deuxième marty
 class MartyHandler2(BaseHandler):

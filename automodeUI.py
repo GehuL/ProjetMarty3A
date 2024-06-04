@@ -1,6 +1,7 @@
-from PyQt6.QtWidgets import QWidget, QGridLayout
+from PyQt6.QtWidgets import QWidget, QGridLayout, QPushButton, QComboBox
 from connexion import ConnexionWidget
 from martyconnect import MartyHandler, MartyHandler2
+import martyCommunication
 
 class AutomodeUI(QWidget):
     def __init__(self):
@@ -8,10 +9,43 @@ class AutomodeUI(QWidget):
 
         grid = QGridLayout(self)
 
-        q1 = ConnexionWidget(MartyHandler())
-        q1.setParent(self) # 1e marty
-        q2 = ConnexionWidget(MartyHandler2())
-        q2.setParent(self) # 2e marty
+        connect1 = ConnexionWidget(MartyHandler())
+        connect1.setParent(self) # 1e marty
+        connect2 = ConnexionWidget(MartyHandler2())
+        connect2.setParent(self) # 2e marty
+ 
+        colorList1 = QComboBox()
+        calibrateBtn1 = QPushButton(text="Calibrate Marty 1")
+        calibrateBtn1.clicked.connect(self.calibrateMarty1)
+        colorList1.addItems(['red', 'blue', 'yellow', 'green', 'black', 'pink', 'lightblue'])
+        self.colorList1 = colorList1
 
-        grid.addWidget(q1)
-        grid.addWidget(q2)
+        grid.addWidget(connect1)
+        grid.addWidget(colorList1)
+        grid.addWidget(calibrateBtn1)
+        
+        #grid.addWidget(calibrateGrid1)
+        colorList2 = QComboBox()
+        colorList2.addItems(['red', 'blue', 'yellow', 'green', 'black', 'pink', 'lightblue'])
+        self.colorList2 = colorList2
+
+        calibrateBtn2 = QPushButton(text="Calibrate Marty 2")
+        calibrateBtn2.clicked.connect(self.calibrateMarty2)
+        grid.addWidget(connect2)
+        grid.addWidget(colorList2)
+        grid.addWidget(calibrateBtn2)
+
+        start_btn = QPushButton(parent=self, text="START")
+        start_btn.clicked.connect(self.onStart)
+
+        grid.addWidget(start_btn)
+
+    def onStart(self, event):
+        print("Start")
+
+    def calibrateMarty1(self, event):
+        print(self.colorList1.currentText())
+
+    def calibrateMarty2(self, event):
+        print(self.colorList2.currentText())
+
