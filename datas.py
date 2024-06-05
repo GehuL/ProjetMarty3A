@@ -14,6 +14,7 @@ class DataScreen(QWidget):
         
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.updateInfo)
+        self.timer.setInterval(1000)
         self.timer.start()
         
         self.accelerometerText = QLabel(self)
@@ -51,7 +52,7 @@ class DataScreen(QWidget):
         self.obstacleIRLabel = QLabel(self)
         self.obstacleIRLabel.setText("IR : 000000")
         self.obstacleIRLabel.move(0, 140)
-        
+
     def updateInfo(self):
         marty = self.marty.getMarty()
         if self.marty.isConnected():

@@ -9,13 +9,13 @@ class BaseHandler(object):
             cls.instance = super(BaseHandler, cls).__new__(cls)
             cls.instance.marty = None
             cls.instance.ip = None
+            cls.instance.calibration={"white":(1,1,1), "red":(0,0,0),"pink":(0,0,0),"blue":(0,0,0),"yellow":(0,0,0),"lightblue":(0,0,0),"green":(0,0,0),"black":(0,0,0)}
         return cls.instance
     
     def __init__(self, ip=None):
         if ip != None:
             self.marty = None
             self.connect(ip)
-            self.calibaration={"red":(0,0,0),"pink":(0,0,0),"blue":(0,0,0),"yellow":(0,0,0),"lightblue":(0,0,0),"green":(0,0,0),"black":(0,0,0)}
 
     def connect(self, ip):
         print("Connecting to marty", ip, "...")
@@ -32,30 +32,40 @@ class BaseHandler(object):
     def isConnected(self):
         return self.marty != None and self.marty.is_conn_ready()
     
-    
-    
-
-
     def calibrate(self,color):#a appeler pour faire la calibration
-        r=marty.get_color_sensor_value_by_channel("left","red")
-        g=marty.get_color_sensor_value_by_channel("left","green")
-        b=marty.get_color_sensor_value_by_channel("left","red")
-        self.calibration[color][0]=r
-        self.calibration[color][1]=g
-        self.calibration[color][2]=b
+        if not self.isConnected():
+            return
+
+        r=self.marty.get_color_sensor_value_by_channel("left","red")
+        g=self.marty.get_color_sensor_value_by_channel("left","green")
+        b=self.marty.get_color_sensor_value_by_channel("left","blue")
+        
+        if color == 'white':
+             self.calibration[color]=(255.0 / r, 255.0 / g, 255.0 / b)
+        else:
+            print(self.calibration['white'])
+            ratioR, ratioG, ratioB = self.calibration['white']
+            self.calibration[color]=(r*ratioR, g*ratioG, b*ratioB)
+
+        print(color, 'brute', r,g,b)
+        print(color, 'compensé', self.calibration[color])
         
     def getColor(self):#a appeler pour detecter une couleur, donc en permanence en fait, dans la fonction update je crois
         #renvoie une chaine de caracteres: la couleur detectee
+        if not self.isConnected():
+            return
+
+        ratioR, ratioG, ratioB = self.calibration['white']
+    
         margin=0.1*255
-        r=marty.get_color_sensor_value_by_channel("left","red")
-        g=marty.get_color_sensor_value_by_channel("left","green")
-        b=marty.get_color_sensor_value_by_channel("left","red")
-        colors=[i for i in self.calibration.keys()]
-        for i in range(7):
-            if abs(r-self.calibaration[i(0)])<margin:
-                if abs(r-self.calibaration[i(1)])<margin:
-                    if abs(r-self.calibaration[i(2)])<margin:
-                        return colors[i]
+        r=self.marty.get_color_sensor_value_by_channel("left","red") * ratioR
+        g=self.marty.get_color_sensor_value_by_channel("left","green") * ratioG
+        b=self.marty.get_color_sensor_value_by_channel("left","blue") * ratioB
+        for color in self.calibration.keys():
+            if abs(r-self.calibaration[color])<margin:
+                if abs(g-self.calibaration[color])<margin:
+                    if abs(b-self.calibaration[color])<margin:
+                        return color
         return "black"
 
 # Premier marty
