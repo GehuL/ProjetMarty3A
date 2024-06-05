@@ -15,6 +15,7 @@ class BaseHandler(object):
         if ip != None:
             self.marty = None
             self.connect(ip)
+            self.calibaration={"red":(0,0,0),"pink":(0,0,0),"blue":(0,0,0),"yellow":(0,0,0),"lightblue":(0,0,0),"green":(0,0,0),"black":(0,0,0)}
 
     def connect(self, ip):
         print("Connecting to marty", ip, "...")
@@ -30,6 +31,32 @@ class BaseHandler(object):
     
     def isConnected(self):
         return self.marty != None and self.marty.is_conn_ready()
+    
+    
+    
+
+
+    def calibrate(self,color):#a appeler pour faire la calibration
+        r=marty.get_color_sensor_value_by_channel("left","red")
+        g=marty.get_color_sensor_value_by_channel("left","green")
+        b=marty.get_color_sensor_value_by_channel("left","red")
+        self.calibration[color][0]=r
+        self.calibration[color][1]=g
+        self.calibration[color][2]=b
+        
+    def getColor(self):#a appeler pour detecter une couleur, donc en permanence en fait, dans la fonction update je crois
+        #renvoie une chaine de caracteres: la couleur detectee
+        margin=0.1*255
+        r=marty.get_color_sensor_value_by_channel("left","red")
+        g=marty.get_color_sensor_value_by_channel("left","green")
+        b=marty.get_color_sensor_value_by_channel("left","red")
+        colors=[i for i in self.calibration.keys()]
+        for i in range(7):
+            if abs(r-self.calibaration[i(0)])<margin:
+                if abs(r-self.calibaration[i(1)])<margin:
+                    if abs(r-self.calibaration[i(2)])<margin:
+                        return colors[i]
+        return "black"
 
 # Premier marty
 class MartyHandler(BaseHandler):
