@@ -3,10 +3,10 @@ from martypy import Marty
 # Premier marty
 class BaseHandler(object):
 
-    def  __new__(cls, *args, **kwargs):
+    def  __new__(cls):
         if not hasattr(cls, 'instance'):
             print(cls)
-            cls.instance = super(BaseHandler, cls).__new__(cls, *args, **kwargs)
+            cls.instance = super(BaseHandler, cls).__new__(cls)
             cls.instance.marty = None
             cls.instance.ip = None
         return cls.instance
@@ -35,24 +35,24 @@ class BaseHandler(object):
 class MartyHandler(BaseHandler):
 
     def __new__(cls, *args, **kwargs):
-        return super(MartyHandler, cls).__new__(cls, *args, **kwargs)
+        return super(MartyHandler, cls).__new__(cls)
 
     def __init__(self, ip=None):
         super().__init__(ip)
    
-
-
 # Deuxième marty
 class MartyHandler2(BaseHandler):
 
     def __new__(cls, *args, **kwargs):
-        return super(MartyHandler2, cls).__new__(cls, *args, **kwargs)
+        return super(MartyHandler2, cls).__new__(cls)
 
     def __init__(self, ip=None):
         super().__init__(ip)
 
 if __name__ == "__main__":
-    marty = MartyHandler2("192.168.0.102").getMarty()
+    MartyHandler()
+    MartyHandler("192.168.0.108")
+    marty = MartyHandler2("192.168.0.107").getMarty()
     marty = MartyHandler2().getMarty() # Test du singleton
     if marty is not None:
         #marty.stop("clear and stop")
