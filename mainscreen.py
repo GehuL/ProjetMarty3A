@@ -17,11 +17,6 @@ class MainScreen(QWidget):
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.updateInfo)
         self.timer.start()
-
-        self.buttonStart = QPushButton("Start", parent=self)
-        self.buttonStart.clicked.connect(test)
-        self.buttonStart.move(50, 50)
-        self.buttonStart.show()
         
         self.nameLabel = QLabel(self)
         self.nameLabel.setText("AAAAAAAAAAA")
@@ -140,11 +135,3 @@ class MainScreen(QWidget):
         if self.marty.isConnected():
             self.nameLabel.setText(marty.get_marty_name())
             self.batteryPercentageLabel.setText(str(marty.get_battery_remaining()) + " %")
-
-
-timer2 = QTimer()
-
-def test():
-    timer2.setInterval(1000)
-    timer2.timeout.connect(solveMaze)
-    timer2.start()

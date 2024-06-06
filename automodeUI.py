@@ -1,11 +1,15 @@
 from PyQt6.QtWidgets import QWidget, QGridLayout, QPushButton, QComboBox
 from connexion import ConnexionWidget
 from martyconnect import MartyHandler, MartyHandler2
-import martyCommunication
+from martyCommunication import solveMaze
+
+from PyQt6.QtCore import QTimer
 
 class AutomodeUI(QWidget):
     def __init__(self):
         super().__init__()
+
+        self.timer = QTimer()
 
         grid = QGridLayout(self)
 
@@ -24,6 +28,16 @@ class AutomodeUI(QWidget):
         grid.addWidget(colorList1)
         grid.addWidget(calibrateBtn1)
         
+        self.buttonStart = QPushButton("Start", parent=self)
+        self.buttonStart.clicked.connect(self.onStart)
+        self.buttonStart.move(300, 500)
+        self.buttonStart.show()
+
+        self.buttonEnd = QPushButton("End", parent=self)
+        self.buttonEnd.clicked.connect(self.onEnd)
+        self.buttonEnd.move(300, 500)
+        self.buttonEnd.show()
+
         #grid.addWidget(calibrateGrid1)
         colorList2 = QComboBox()
         colorList2.addItems(['red', 'blue', 'yellow', 'green', 'black', 'pink', 'lightblue'])
@@ -38,10 +52,19 @@ class AutomodeUI(QWidget):
         start_btn = QPushButton(parent=self, text="START")
         start_btn.clicked.connect(self.onStart)
 
+        stop_btn = QPushButton(parent=self, text="STOP")
+        stop_btn.clicked.connect(self.onEnd)
+
         grid.addWidget(start_btn)
+        grid.addWidget(stop_btn)
 
     def onStart(self, event):
-        print("Start")
+        self.timer.setInterval(1000)
+        self.timer.timeout.connect(solveMaze)
+        self.timer.start()
+    
+    def onEnd(self):
+        self.timer.stop()
 
     def calibrateMarty1(self, event):
         print(self.colorList1.currentText())
