@@ -57,6 +57,7 @@ class MainScreen(QWidget):
         self.buttonRR.show()
     
     def keyPressEvent(self, event):
+        print("bonjour")
         if event.key() == QtCore.Qt.Key.Key_Q:
             self.leftClicked()
         if event.key() == QtCore.Qt.Key.Key_D:
