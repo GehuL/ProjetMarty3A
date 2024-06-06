@@ -62,9 +62,11 @@ class BaseHandler(object):
         g=self.marty.get_color_sensor_value_by_channel("left","green") * ratioG
         b=self.marty.get_color_sensor_value_by_channel("left","blue") * ratioB
         for color in self.calibration.keys():
-            if abs(r-self.calibaration[color])<margin:
-                if abs(g-self.calibaration[color])<margin:
-                    if abs(b-self.calibaration[color])<margin:
+            if color == 'white':
+                continue
+            if abs(r-self.calibration[color][0])<margin:
+                if abs(g-self.calibration[color][1])<margin:
+                    if abs(b-self.calibration[color][2])<margin:
                         return color
         return "black"
 
