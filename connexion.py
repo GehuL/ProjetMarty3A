@@ -3,8 +3,11 @@ from PyQt6.QtCore import QSize
 from martyconnect import MartyHandler
 
 class ConnexionWidget(QWidget):
-    def __init__(self):
+    def __init__(self, martyHandler):
         super().__init__()
+
+        self.martyHandler = martyHandler
+
         self.setFixedSize(QSize(250, 75))
         self.setWindowTitle("Connexion")
        
@@ -13,6 +16,7 @@ class ConnexionWidget(QWidget):
         input = QLineEdit(self)
         #input.setValidator(QDoubleValidator(0.99,99.99,2))
         input.setInputMask("000.000.000.000;_")
+
         input.setMaxLength(12)
         self.input = input
 
@@ -27,14 +31,26 @@ class ConnexionWidget(QWidget):
 
         self.setLayout(layout)
 
+        if self.martyHandler.ip != None:
+         input.setText(self.martyHandler.ip)
+
+        self.setButton(self.martyHandler.isConnected())
+
+    def setButton(self, connected):
+        if connected:
+            self.btn.setText("Press to disconnect")
+            self.btn.setStyleSheet("background-color: green;")
+        else:
+            self.btn.setText("Press to connect")
+            self.btn.setStyleSheet("background-color: red;")
+
     def connect(self):
         ip = self.input.text()
         print(ip)
 
-        if MartyHandler().isConnected():
-            MartyHandler().marty.close()
-            self.btn.setText("Press to connect")
-            self.btn.setStyleSheet("background-color: red;")
-        elif MartyHandler(ip).isConnected():
-            self.btn.setText("Press to disconnect")
-            self.btn.setStyleSheet("background-color: green;")
+        if self.martyHandler.isConnected():
+            self.martyHandler.marty.close()
+        else:
+            self.martyHandler.connect(ip)
+
+        self.setButton(self.martyHandler.isConnected())

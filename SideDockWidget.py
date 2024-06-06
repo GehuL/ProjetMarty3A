@@ -64,13 +64,16 @@ class SideDockWidget(QMainWindow):
             widget.setWindowFlag(Qt.WindowType.Window | Qt.WindowType.FramelessWindowHint)
 
         widget.show()
+
+    def closeEvent(self, event):
+        for window in self.volets:
+            if window:
+                window.close()
     
     def getDock(self, side: Side):
         return self.volets[side]
 
     def moveEvent(self, a0):
-
-        print("moveEvent()")
 
         if self.volets[Side.LEFT]:
             pos_y = int(self.pos().y() + self.height() / 2 - self.volets[Side.LEFT].height() / 2)
