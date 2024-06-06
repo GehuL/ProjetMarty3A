@@ -30,7 +30,6 @@ class Marty:
         print(self._index)
 
         if self._index % gridSize[1] == 0:
-            print("Go Forward")
             connection.walk(3,"auto",0,25,1000,False) # Forward one step
             self._goLeft = not self._goLeft
         else:
