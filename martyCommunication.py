@@ -4,8 +4,6 @@ from martyconnect import MartyHandler2
 
 gridSize = (3, 3) # x, y
 
-# TODO : Make a method to go back to starting point after analyze ?
-
 class Marty:
     def __init__(self, handler) -> None:
         self._handler = handler
@@ -61,7 +59,7 @@ class Marty:
         return self._isFinishined
 
 marty1 = Marty(MartyHandler())
-#marty2 = Marty(MartyHandler2())
+marty2 = Marty(MartyHandler2())
 info1 = []
 info2 = []
 
@@ -70,14 +68,14 @@ def solveMaze() -> None:
     if not marty1.isFinishedAnalyzed():
         info1.append(marty1.analyzeTile())
         return None
-    #if not marty2.isFinishedAnalyzed():
-    #    info2.append(marty2.analyzeTile())
-    #    return None
+    if not marty2.isFinishedAnalyzed():
+        info2.append(marty2.analyzeTile())
+        return None
 
     if not marty1.isFinished():
         marty1.step(info2)
         return None
-    #if not marty2.isFinishined():
-    #    marty1.step(info1)
-    #    return None
+    if not marty2.isFinishined():
+        marty1.step(info1)
+        return None
     
