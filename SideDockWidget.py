@@ -68,6 +68,11 @@ class SideDockWidget(QMainWindow):
             widget.setWindowFlag(Qt.WindowType.Window | Qt.WindowType.FramelessWindowHint)
 
         widget.show()
+
+    def closeEvent(self, event):
+        for window in self.volets:
+            if window:
+                window.close()
     
     def getDock(self, side: Side):
         return self.volets[side]
