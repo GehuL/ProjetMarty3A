@@ -59,6 +59,7 @@ class MainScreen(QWidget):
         self.buttonRR.show()
     
     def keyPressEvent(self, event):
+        print(event.key())
         if event.key() == QtCore.Qt.Key.Key_Q:
             self.leftClicked()
         if event.key() == QtCore.Qt.Key.Key_D:
@@ -101,8 +102,6 @@ class MainScreen(QWidget):
             MartyHandler().getMarty().walk(1,"auto",90/3,10,2500,False)
         MartyHandler().getMarty().stand_straight(1000,None)
 
-
-
     def rotaterightClicked(self):
         if not MartyHandler().isConnected():
             return 
@@ -124,9 +123,7 @@ class MainScreen(QWidget):
         if not MartyHandler().isConnected():
             return 
         print("Down")
-        for i in range(6):
-            MartyHandler().getMarty().stand_straight(1000,False)
-            MartyHandler().getMarty().walk(1,"auto",-180/6,10,2000,False)
+        MartyHandler().getMarty().walk(1,"auto", 0,-50,2000,False)
         MartyHandler().getMarty().stand_straight(1000,False)
 
 

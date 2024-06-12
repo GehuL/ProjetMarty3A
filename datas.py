@@ -1,7 +1,25 @@
 from PyQt6.QtWidgets import QWidget, QLabel
-from PyQt6.QtCore import QSize, QTimer
-
+from PyQt6.QtCore import *
 from martyconnect import MartyHandler
+import time
+
+class DataThread(QRunnable):
+    
+    def __init__(self, datascreen):
+        super(DataThread, self).__init__()
+        self.datascreen = datascreen
+        self.run = True
+    
+    @pyqtSlot()
+    def run(self):
+        while self.run:
+            time.sleep(1)
+            print('bonjour')
+            self.datascreen.updateInfo()
+    
+    def stop(self):
+        self.run = False
+
 
 class DataScreen(QWidget):
     def __init__(self):
@@ -11,11 +29,16 @@ class DataScreen(QWidget):
         
         self.setFixedSize(QSize(300, 500))
         self.setWindowTitle("Données")
+
+        #self.threadPool = QThreadPool()
+        #òself.datathread = DataThread(self)
+      #  self.threadPool.start(self.datathread)
         
-        self.timer = QTimer(self)
-        self.timer.timeout.connect(self.updateInfo)
-        self.timer.start()
-        
+        #self.timer = QTimer(self)
+        #self.timer.timeout.connect(self.updateInfo)
+        #self.timer.setInterval(1000)
+        #self.timer.start()
+
         self.accelerometerText = QLabel(self)
         self.accelerometerText.setText("Accelerometer :")
         self.accelerometerText.move(0, 0)
@@ -51,16 +74,17 @@ class DataScreen(QWidget):
         self.obstacleIRLabel = QLabel(self)
         self.obstacleIRLabel.setText("IR : 000000")
         self.obstacleIRLabel.move(0, 140)
-        
+
     def updateInfo(self):
-        marty = self.marty.getMarty()
-        if self.marty.isConnected():
+        if MartyHandler().isConnected():
+            marty = MartyHandler().getMarty()
+
             x, y, z = marty.get_accelerometer()
 
             self.accelerometerXLabel.setText(f"x = {x}")
             self.accelerometerYLabel.setText(f"y = {y}")
             self.accelerometerZLabel.setText(f"z = {z}")
-            
+        
             self.obstacleLeftLabel.setText("Left : " + str(marty.get_obstacle_sensor_reading("left")))
             self.obstacleRightLabel.setText("Right : " + str(marty.get_obstacle_sensor_reading("right")))
             self.obstacleColorLabel.setText("Color : " + str(marty.get_obstacle_sensor_reading("LeftColorSensor")))
