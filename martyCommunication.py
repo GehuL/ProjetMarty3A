@@ -47,9 +47,7 @@ class MartyAnalyzer:
         if self._y == gridSize[1] and self._x == xEnd:
             self._isFinishined = True
 
-        # getColor()
-
-        self._course[self._x][self._y] = "color"
+        self._course[self._x][self._y] = self._handler.getColor()
 
         return None
 
@@ -73,7 +71,9 @@ def combineCourse(course1, course2):
     return course1
 
 class MartyParkour:
-    def __init__(self, course) -> None:
+    def __init__(self, course, handler) -> None:
+        self._handler = handler
+
         self._course = course
         self._x = 0
         self._y = 0
@@ -81,7 +81,7 @@ class MartyParkour:
 
         for y in range(0, gridSize[1]):
             for x in range(0, gridSize[0]):
-                if self._course[y][x] == "bleu ciel":
+                if self._course[y][x] == "lightblue":
                     self._x = x
                     self._y = y
 
@@ -94,18 +94,18 @@ class MartyParkour:
             return None
         connection = self._handler.getMarty()
 
-        if self._course[self._index] == "rouge":
+        if self._course[self._index] == "red":
             self._isFinishined = True
-        elif self._course[self._index] == "vert":
+        elif self._course[self._index] == "green":
             connection.walk(3, "auto", 0, 25, 1000, False)
             self._y += 1
-        elif self._course[self._index] == "jaune":
+        elif self._course[self._index] == "yellow":
             connection.walk(3,"auto", 0, -25, 1000, False)
             self._y -= 1
-        elif self._course[self._index] == "bleu marine":
+        elif self._course[self._index] == "blue":
             connection.sidestep("right", 4, 35, 1000, False)
             self._x += 1
-        elif self._course[self._index] == "rose":
+        elif self._course[self._index] == "pink":
             connection.sidestep("left", 4, 35, 1000, False)
             self._x -= 1
     
@@ -113,24 +113,18 @@ class MartyParkour:
         """Renvoie true si on à résolue le labyrinthe (plus besoin d'appeler step), false sinon"""
         return self._isFinishined
 
-marty1 = MartyAnalyzer(MartyHandler())
-marty2 = MartyAnalyzer(MartyHandler2())
-info1 = []
-info2 = []
+analalyzer1 = MartyAnalyzer(MartyHandler())
+analalyzer2 = MartyAnalyzer(MartyHandler2())
 
-def solveMaze() -> None:
+parkour = None
 
-    if not marty1.isFinishedAnalyzed():
-        info1.append(marty1.analyzeTile())
-        return None
-    if not marty2.isFinishedAnalyzed():
-        info2.append(marty2.analyzeTile())
-        return None
+def analyze() -> None:
+    analalyzer1.analyzeTile()
+    analalyzer2.analyzeTile()
 
-    if not marty1.isFinished():
-        marty1.step(info2)
-        return None
-    if not marty2.isFinishined():
-        marty1.step(info1)
-        return None
-    
+def initSolve() -> None:
+    global parkour
+    parkour = MartyParkour(combineCourse(analalyzer1.getCourse(), analalyzer2.getCourse()), MartyHandler())
+
+def solve() -> None:
+    parkour.step()
