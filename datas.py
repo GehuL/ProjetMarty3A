@@ -30,9 +30,9 @@ class DataScreen(QWidget):
         self.setFixedSize(QSize(300, 500))
         self.setWindowTitle("Données")
 
-        self.threadPool = QThreadPool()
-        self.datathread = DataThread(self)
-      #ò  self.threadPool.start(self.datathread)
+        #self.threadPool = QThreadPool()
+        #òself.datathread = DataThread(self)
+      #  self.threadPool.start(self.datathread)
         
         #self.timer = QTimer(self)
         #self.timer.timeout.connect(self.updateInfo)
