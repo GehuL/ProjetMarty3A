@@ -1,4 +1,5 @@
-from PyQt6.QtCore import QSize, Qt, QPoint
+import platform
+from PyQt6.QtCore import QSize, Qt, QPoint, QTimer
 from PyQt6.QtWidgets import QApplication, QWidget, QStyle, QPushButton, QGridLayout, QMainWindow
 from PyQt6.QtGui import *
 
@@ -39,8 +40,11 @@ class SideDockWidget(QMainWindow):
         self.buttons[Side.LEFT].move(0, int(self.height() / 2 - self.buttons[Side.TOP].height() / 2))
         self.buttons[Side.BOT].move(int(self.width() / 2 - self.buttons[Side.TOP].width() / 2), self.height() - self.buttons[Side.BOT].height())
 
-        layout = QGridLayout()
-        #self.setLayout(layout)
+        if platform.system() == "Linux":
+            timer = QTimer(self)
+            timer.setInterval(100)
+            timer.timeout.connect(self.moveEventCb)
+            timer.start()
 
     def button_event(self):
         sender = self.sender()
@@ -72,17 +76,23 @@ class SideDockWidget(QMainWindow):
     
     def getDock(self, side: Side):
         return self.volets[side]
+    
+    def moveEventCb(self):
+        self.moveWindow(self.pos())
 
     def moveEvent(self, a0):
+        self.moveWindow(a0.pos)
+
+    def moveWindow(self, windowPos):
 
         if self.volets[Side.LEFT]:
             pos_y = int(self.pos().y() + self.height() / 2 - self.volets[Side.LEFT].height() / 2)
             self.volets[Side.LEFT].move(QPoint(self.pos().x() - self.volets[Side.LEFT].size().width(), pos_y))
 
         if self.volets[Side.TOP]:
-            title_bar_height = QApplication.style().pixelMetric(QStyle.PixelMetric.PM_TitleBarHeight)
+            #title_bar_height = QApplication.style().pixelMetric(QStyle.PixelMetric.PM_TitleBarHeight)
             pos_x = int(self.pos().x() + self.width() / 2 - self.volets[Side.TOP].width() / 2)
-            self.volets[Side.TOP].move(QPoint(pos_x, a0.pos().y() - title_bar_height - self.volets[Side.TOP].size().height()))
+            self.volets[Side.TOP].move(QPoint(pos_x, self.pos().y() - self.volets[Side.TOP].size().height()))
 
         if self.volets[Side.RIGHT]:
             pos_y = int(self.pos().y() + self.height() / 2 - self.volets[Side.RIGHT].height() / 2)
@@ -90,7 +100,7 @@ class SideDockWidget(QMainWindow):
 
         if self.volets[Side.BOT]:
             pos_x = int(self.pos().x() + self.width() / 2 - self.volets[Side.BOT].width() / 2)
-            self.volets[Side.BOT].move(QPoint(pos_x, a0.pos().y() + self.height()))
+            self.volets[Side.BOT].move(QPoint(pos_x, self.pos().y() + self.height()))
 
 # Test
 if __name__ == "__main__":
