@@ -21,7 +21,7 @@ class AutomodeUI(QWidget):
         colorList1 = QComboBox()
         calibrateBtn1 = QPushButton(text="Calibrate Marty 1")
         calibrateBtn1.clicked.connect(self.calibrateMarty1)
-        colorList1.addItems(['red', 'blue', 'yellow', 'green', 'black', 'pink', 'lightblue'])
+        colorList1.addItems(['white','red', 'blue', 'yellow', 'green', 'black', 'pink', 'lightblue'])
         self.colorList1 = colorList1
 
         grid.addWidget(connect1)
@@ -40,7 +40,7 @@ class AutomodeUI(QWidget):
 
         #grid.addWidget(calibrateGrid1)
         colorList2 = QComboBox()
-        colorList2.addItems(['red', 'blue', 'yellow', 'green', 'black', 'pink', 'lightblue'])
+        colorList2.addItems(['white','red', 'blue', 'yellow', 'green', 'black', 'pink', 'lightblue'])
         self.colorList2 = colorList2
 
         calibrateBtn2 = QPushButton(text="Calibrate Marty 2")
@@ -67,8 +67,10 @@ class AutomodeUI(QWidget):
         self.timer.stop()
 
     def calibrateMarty1(self, event):
-        print(self.colorList1.currentText())
+        color = self.colorList1.currentText()
+        MartyHandler().calibrate(color)
 
     def calibrateMarty2(self, event):
-        print(self.colorList2.currentText())
+        color = self.colorList2.currentText()
+        MartyHandler2().calibrate(color)
 
