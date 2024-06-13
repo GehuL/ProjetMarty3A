@@ -33,9 +33,9 @@ class MartyAnalyzer:
         if self._y == gridSize[1] - 1 and self._x == gridSize[0] - 1:
             self._isFinishined = True
 
-        # self._course[self._x][self._y] = self._handler.getColor()
-        print("(", self._x, ", ", self._y, ")")
-        self._course[self._x][self._y] = "black"
+        self._course[self._x][self._y] = self._handler.getColor()
+        # print("(", self._x, ", ", self._y, ")")
+        # self._course[self._x][self._y] = "black"
 
         if self._y % 2 == 0:
             xEnd = gridSize[0] - 1
@@ -44,20 +44,21 @@ class MartyAnalyzer:
             xEnd = 0
             xStep = -1
 
+        MartyHandler().getMarty().stand_straight(1000,None)
 
         if self._x == xEnd:
-            if xStep == 1:
-                connection.sidestep("right", 4, 35, 1000, False)
-            else:
-                connection.sidestep("left", 4, 35, 1000, False)
+            # if xStep == 1:
+            #     connection.sidestep("right", 6, 35, 1000, False)
+            # else:
+            #     connection.sidestep("left", 6, 35, 1000, False)
             if self._y != gridSize[1] - 1:
-                connection.walk(3, "auto", 0, 25, 1000, False)
+                connection.walk(6, "auto", 0, 25, 1000, False)
             self._y += 1
         else:
             if xStep == 1:
-                connection.sidestep("right", 4, 35, 1000, False)
+                connection.sidestep("right", 6, 35, 1000, False)
             else:
-                connection.sidestep("left", 4, 35, 1000, False)
+                connection.sidestep("left", 6, 35, 1000, False)
             self._x += xStep
 
         return None
@@ -106,21 +107,22 @@ class MartyParkour:
         connection = self._handler.getMarty()
 
         if self._course[self._y][self._x] == "red":
+            connection.dance()
             self._isFinishined = True
         elif self._course[self._y][self._x] == "lightblue":
-            connection.walk(3, "auto", 0, 25, 1000, False)
+            connection.walk(6, "auto", 0, 25, 1000, False)
             self._y += 1
         elif self._course[self._y][self._x] == "green":
-            connection.walk(3, "auto", 0, 25, 1000, False)
+            connection.walk(6, "auto", 0, 25, 1000, False)
             self._y += 1
         elif self._course[self._y][self._x] == "yellow":
-            connection.walk(3,"auto", 0, -25, 1000, False)
+            connection.walk(6,"auto", 0, -25, 1000, False)
             self._y -= 1
         elif self._course[self._y][self._x] == "blue":
-            connection.sidestep("right", 4, 35, 1000, False)
+            connection.sidestep("right", 6, 35, 1000, False)
             self._x += 1
         elif self._course[self._y][self._x] == "pink":
-            connection.sidestep("left", 4, 35, 1000, False)
+            connection.sidestep("left", 6, 35, 1000, False)
             self._x -= 1
     
     def isFinished(self) -> bool:
@@ -138,8 +140,9 @@ def analyze() -> None:
 
 def initSolve() -> None:
     global parkour
-    # parkour = MartyParkour(combineCourse(analalyzer1.getCourse(), analalyzer2.getCourse()), MartyHandler())
-    parkour = MartyParkour([["lightblue", "blue", "green"], ["blue", "yellow", "green"], ["red", "pink", "pink"]], MartyHandler())
+    print(combineCourse(analalyzer1.getCourse(), analalyzer2.getCourse()))
+    parkour = MartyParkour(combineCourse(analalyzer1.getCourse(), analalyzer2.getCourse()), MartyHandler())
+    # parkour = MartyParkour([["lightblue", "blue", "green"], ["blue", "yellow", "green"], ["red", "pink", "pink"]], MartyHandler())
 
 def solve() -> None:
     parkour.step()
