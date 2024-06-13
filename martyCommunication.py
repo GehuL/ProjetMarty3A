@@ -105,8 +105,6 @@ class MartyParkour:
             return None
         connection = self._handler.getMarty()
 
-        print(self._course[self._y][self._x])
-
         if self._course[self._y][self._x] == "red":
             self._isFinishined = True
         elif self._course[self._y][self._x] == "lightblue":
