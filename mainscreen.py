@@ -3,8 +3,6 @@ from PyQt6.QtWidgets import QWidget, QPushButton, QLabel
 from PyQt6.QtCore import QSize, QTimer
 from PyQt6 import QtCore
 
-from martyCommunication import solveMaze
-
 
 class MainScreen(QWidget):
     def __init__(self):

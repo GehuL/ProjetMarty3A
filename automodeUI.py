@@ -1,7 +1,7 @@
 from PyQt6.QtWidgets import QWidget, QGridLayout, QPushButton, QComboBox
 from connexion import ConnexionWidget
 from martyconnect import MartyHandler, MartyHandler2
-from martyCommunication import solveMaze
+from martyCommunication import analyze, initSolve, solve
 
 from PyQt6.QtCore import QTimer
 
@@ -27,16 +27,6 @@ class AutomodeUI(QWidget):
         grid.addWidget(connect1)
         grid.addWidget(colorList1)
         grid.addWidget(calibrateBtn1)
-        
-        self.buttonStart = QPushButton("Start", parent=self)
-        self.buttonStart.clicked.connect(self.onStart)
-        self.buttonStart.move(300, 500)
-        self.buttonStart.show()
-
-        self.buttonEnd = QPushButton("End", parent=self)
-        self.buttonEnd.clicked.connect(self.onEnd)
-        self.buttonEnd.move(300, 500)
-        self.buttonEnd.show()
 
         #grid.addWidget(calibrateGrid1)
         colorList2 = QComboBox()
@@ -50,21 +40,40 @@ class AutomodeUI(QWidget):
         grid.addWidget(calibrateBtn2)
 
         start_btn = QPushButton(parent=self, text="START")
-        start_btn.clicked.connect(self.onStart)
+        start_btn.clicked.connect(self.onAnalyze)
 
         stop_btn = QPushButton(parent=self, text="STOP")
         stop_btn.clicked.connect(self.onEnd)
 
-        grid.addWidget(start_btn)
-        grid.addWidget(stop_btn)
+        buttonStart = QPushButton("Analyze", parent=self)
+        buttonStart.clicked.connect(self.onAnalyze)
 
-    def onStart(self, event):
+        buttonSolve = QPushButton("Solve !", parent=self)
+        buttonSolve.clicked.connect(self.onSolve)
+
+        buttonEnd = QPushButton("End", parent=self)
+        buttonEnd.clicked.connect(self.onEnd)
+
+        grid.addWidget(buttonStart)
+        grid.addWidget(buttonSolve)
+        grid.addWidget(buttonEnd)
+
+    def onAnalyze(self, event):
         self.timer.setInterval(1000)
-        self.timer.timeout.connect(solveMaze)
+        self.timer.timeout.connect(analyze)
         self.timer.start()
     
     def onEnd(self):
         self.timer.stop()
+
+    def onSolve(self):
+        self.timer.stop()
+
+        initSolve()
+
+        self.timer.setInterval(1000)
+        self.timer.timeout.connect(solve)
+        self.timer.start()
 
     def calibrateMarty1(self, event):
         color = self.colorList1.currentText()
